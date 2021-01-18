@@ -69,12 +69,12 @@ dependencies {
     implementation rootProject.ext.dependencies["appcompat_v7"]
     implementation rootProject.ext.dependencies["constraintlayout"]
     if (applyFromBintrayRepo.toBoolean()) {
-        println('[app] apply mvp-core,framework-annotation,framework-annotationprocessor from BintrayRepo.')
+        println('[mvp-sample] apply mvp-core,framework-annotation,framework-annotationprocessor from BintrayRepo.')
         implementation "com.jeff.framework:mvp-core:${framework_mvp_core_version_name}"
         implementation "com.jeff.framework:framework-annotation:${framework_annotation_version_name}"
         annotationProcessor "com.jeff.framework:framework-annotationprocessor:${framework_annotation_processor_version_name}"
     } else {
-        println('[app] apply mvp-core,framework-annotation,framework-annotationprocessor from local module.')
+        println('[mvp-sample] apply mvp-core,framework-annotation,framework-annotationprocessor from local module.')
         implementation project(':mvp-core')
         implementation project(path: ':framework-annotation')
         annotationProcessor project(path: ':framework-annotationprocessor')

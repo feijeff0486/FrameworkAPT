@@ -27,7 +27,6 @@ buildscript {
         maven { url 'https://maven.google.com' }
         maven { url 'https://jitpack.io' }
         maven { url 'https://dl.bintray.com/feijeff0486/JFramework/' }
-        maven { url 'https://dl.bintray.com/feijeff0486/FrameworkAPT/' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.6.3'
@@ -53,7 +52,6 @@ allprojects {
         google()
         jcenter()
         maven { url 'https://dl.bintray.com/feijeff0486/JFramework/' }
-        maven { url 'https://dl.bintray.com/feijeff0486/FrameworkAPT/' }
         maven { url 'https://jitpack.io' }
         maven {
             url 'http://www.idescout.com/maven/repo/'
