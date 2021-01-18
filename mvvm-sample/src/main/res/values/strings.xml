@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">mvvm-sample</string>
+    <string name="button_enabled">Enable</string>
+    <string name="button_disabled">Disable</string>
+</resources>

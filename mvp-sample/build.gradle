@@ -1,0 +1,85 @@
+String moduleName = project.name
+
+log(moduleName, "apply as application")
+apply plugin: 'com.android.application'
+
+def static buildTime() {
+    return new Date().format("yyyyMMddHHmm", TimeZone.getTimeZone("GMT+08"))
+}
+
+def log(String tag, String msg) {
+    println("FrameworkAPT-" + tag + "-config: " + msg)
+}
+
+android {
+    compileSdkVersion rootProject.ext.COMPILE_SDK_VERSION
+    buildToolsVersion rootProject.ext.BUILDTOOLS_VERSION
+    //resourcePrefix 保证资源命名的唯一性,只能限定Xml资源,并不能限定图片资源
+//    resourcePrefix moduleName+"_"
+    defaultConfig {
+        applicationId "com.jeff.framework.apt.demo"
+        minSdkVersion rootProject.ext.MIN_SDK_VERSION
+        targetSdkVersion rootProject.ext.TARGET_SDK_VERSION
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+
+    buildTypes {
+        debug {
+            debuggable true
+            jniDebuggable true
+            minifyEnabled false
+            zipAlignEnabled false
+            shrinkResources false
+            renderscriptDebuggable true
+        }
+        release {
+            //开启代码压缩、混淆
+            minifyEnabled true
+            //开启zipalign(字节码对齐)优化
+            zipAlignEnabled true
+            //开启资源压缩，去除无用的resource文件
+            shrinkResources true
+            debuggable false
+            renderscriptDebuggable false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            // 设置输出apk名称
+            applicationVariants.all { variant ->
+                variant.outputs.all {
+                    //格式：应用名称_v版本名称_版本code_打包日期_targetSdk_buildType.apk
+                    outputFileName = "MVPSample_v${variant.versionName}_${variant.versionCode}_${buildTime()}" +
+                            "_target${defaultConfig.targetSdkVersion.apiLevel}_${variant.buildType.name}.apk"
+                }
+            }
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility rootProject.ext.JAVA_VERSION
+        targetCompatibility rootProject.ext.JAVA_VERSION
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation rootProject.ext.dependencies["appcompat_v7"]
+    implementation rootProject.ext.dependencies["constraintlayout"]
+    if (applyFromBintrayRepo.toBoolean()) {
+        println('[app] apply mvp-core,framework-annotation,framework-annotationprocessor from BintrayRepo.')
+        implementation "com.jeff.framework:mvp-core:${framework_mvp_core_version_name}"
+        implementation "com.jeff.framework:framework-annotation:${framework_annotation_version_name}"
+        annotationProcessor "com.jeff.framework:framework-annotationprocessor:${framework_annotation_processor_version_name}"
+    } else {
+        println('[app] apply mvp-core,framework-annotation,framework-annotationprocessor from local module.')
+        implementation project(':mvp-core')
+        implementation project(path: ':framework-annotation')
+        annotationProcessor project(path: ':framework-annotationprocessor')
+    }
+    androidTestImplementation rootProject.ext.dependencies["runner"]
+    androidTestImplementation rootProject.ext.dependencies["espresso"]
+    testImplementation rootProject.ext.dependencies["junit"]
+}

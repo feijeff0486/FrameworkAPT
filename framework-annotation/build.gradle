@@ -1,0 +1,26 @@
+ext {
+    bintrayName = 'framework-annotation'
+    artifact = bintrayName
+    libraryName = 'JFramework framework-annotation library'
+    libraryDescription = 'A library contains framewoek annotations.'
+    libraryVersionCode = framework_annotation_version_code
+    libraryVersionName = framework_annotation_version_name
+}
+apply from: rootProject.file('gradle/build_library.gradle')
+
+android {
+    defaultConfig {
+        versionCode libraryVersionCode.asType(Integer.class)
+        versionName libraryVersionName
+    }
+}
+
+dependencies{
+    if (applyFromBintrayRepo.toBoolean()) {
+        println('[framework-annotation] apply framework-annotation-core from BintrayRepo.')
+        api "com.jeff.framework:framework-annotation-core:${framework_annotation_core_version_name}"
+    } else {
+        println('[framework-annotation] apply framework-annotation-core from local module.')
+        api project(path: ':framework-annotation-core')
+    }
+}

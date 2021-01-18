@@ -1,0 +1,14 @@
+ext {
+    bintrayName = 'framework-annotation-core'
+    artifact = bintrayName
+    libraryName = 'JFramework framework-annotation-core library'
+    libraryDescription = 'A library provide framework annotations.'
+    libraryVersionCode = framework_annotation_core_version_code
+    libraryVersionName = framework_annotation_core_version_name
+}
+apply from: rootProject.file('gradle/build_java_library.gradle')
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+}

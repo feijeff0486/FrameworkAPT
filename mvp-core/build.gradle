@@ -1,0 +1,20 @@
+ext {
+    bintrayName = 'mvp-core'
+    artifact = bintrayName
+    libraryName = 'JFramework mvp-core library'
+    libraryDescription = 'A library to help you implement the MVP framework.'
+    libraryVersionCode = framework_mvp_core_version_code
+    libraryVersionName = framework_mvp_core_version_name
+}
+apply from: rootProject.file('gradle/build_library.gradle')
+
+android {
+    defaultConfig {
+        versionCode libraryVersionCode.asType(Integer.class)
+        versionName libraryVersionName
+    }
+}
+
+dependencies{
+    api 'com.jeff.framework:core:0.0.5'
+}

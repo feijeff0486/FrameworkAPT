@@ -1,0 +1,23 @@
+ext {
+    bintrayName = 'framework-annotationprocessor'
+    artifact = bintrayName
+    libraryName = 'JFramework framework-annotationprocessor library'
+    libraryDescription = 'A library to process framework annotations and auto generate code.'
+    libraryVersionCode = framework_annotation_processor_version_code
+    libraryVersionName = framework_annotation_processor_version_name
+}
+apply from: rootProject.file('gradle/build_java_library.gradle')
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.squareup:javapoet:1.11.1'
+    implementation 'com.google.auto.service:auto-service:1.0-rc6'
+    annotationProcessor 'com.google.auto.service:auto-service:1.0-rc6'
+    if (applyFromBintrayRepo.toBoolean()) {
+        println('[framework-annotationprocessor] apply framework-annotation-core from BintrayRepo.')
+        implementation "com.jeff.framework:framework-annotation-core:${framework_annotation_core_version_name}"
+    } else {
+        println('[framework-annotationprocessor] apply framework-annotation-core from local module.')
+        implementation project(path: ':framework-annotation-core')
+    }
+}
